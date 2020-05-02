@@ -1,0 +1,219 @@
+# Compile for arm architecture
+ARCH = arm
+export ARCH
+
+DEVMODE_DSRC = n
+ARCH:=arm
+CROSS_COMPILE:=/home/wanijv2x/v2x_bin/gcc-4.9-2016.02-x86_64_arm-linux-gnueabi/bin/arm-linux-gnueabi-
+#CROSS_COMPILE:=arm-linux-gnueabi-
+
+# APP dir
+#APP_DIR = $(CURDIR)
+APP_DIR = .
+
+# BaseInterface dir
+BASEINTERFACE_DIR = $(APP_DIR)/BaseInterface/
+
+# FaciLayer dir
+FACILAYER_DIR = $(APP_DIR)/FaciLayer/
+
+# NetLayer dir
+NETLAYER_DIR = $(APP_DIR)/NetLayer/
+
+# Algorithm dir
+ALGORITHM_DIR = $(APP_DIR)/Algorithm/
+
+# SecFrame dir
+SECFRAME_DIR = $(APP_DIR)/SecFrame/
+
+# MsgFrame dir
+MSGFRAME_DIR = $(APP_DIR)/MsgFrame/
+
+#SecLayer dir
+SecLayer_DIR = $(APP_DIR)/SecLayer/
+
+#NetLayer dir
+NetLayer_DIR = $(APP_DIR)/NetLayer/
+
+# libs dir
+LIBS_DIR = $(APP_DIR)/libs
+
+# source file
+SOURCES :=
+SOURCES += $(APP_DIR)/DataSet/DataSet.c
+
+##NetLayer files
+#SOURCES+=$(NetLayer_DIR)DataSet.c
+#SOURCES+=$(NetLayer_DIR)DSMP.c
+#SOURCES+=$(NetLayer_DIR)MIBUtil.c
+#SOURCES+=$(NetLayer_DIR)FunCommun.c
+
+##SecLayer files
+#SOURCES+=$(SecLayer_DIR)Encode_SecMsg.c
+#SOURCES+=$(SecLayer_DIR)FunCommun.c
+#SOURCES+=$(SecLayer_DIR)SecLayer_Deal.c
+#SOURCES+=$(SecLayer_DIR)Verify_SecMsg.c
+
+## FaciLayer files
+#SOURCES+=$(FACILAYER_DIR)DataSet.c
+#SOURCES+=$(FACILAYER_DIR)BsmTx.c
+#SOURCES+=$(FACILAYER_DIR)SpatTx.c
+#SOURCES+=$(FACILAYER_DIR)RsiTx.c
+#SOURCES+=$(FACILAYER_DIR)RsmTx.c
+#SOURCES+=$(FACILAYER_DIR)MapTx.c
+#SOURCES+=$(FACILAYER_DIR)ExtFunction.c
+#SOURCES+=$(FACILAYER_DIR)FacCommunicate.c
+#SOURCES+=$(FACILAYER_DIR)FacHostProcess.c
+#SOURCES+=$(FACILAYER_DIR)FacMsgDup.c
+SOURCES+=$(FACILAYER_DIR)RsmConfig.c
+SOURCES+=$(FACILAYER_DIR)RsiConfig.c
+SOURCES+=$(FACILAYER_DIR)SpatConfig.c
+
+## Algorithm files
+SOURCES += $(ALGORITHM_DIR)DataSet/DataSet.c
+#SOURCES += $(ALGORITHM_DIR)cJSON.c
+#SOURCES += $(ALGORITHM_DIR)BSM_Algorithm.c
+#SOURCES += $(ALGORITHM_DIR)RSI_Algorithm.c
+#SOURCES += $(ALGORITHM_DIR)SPAT_Algorithm.c
+#SOURCES += $(ALGORITHM_DIR)ComputeTool.c
+#SOURCES += $(ALGORITHM_DIR)MapMatch.c
+#SOURCES += $(ALGORITHM_DIR)MercatorProj.c
+#SOURCES += $(ALGORITHM_DIR)GetMapPoints.c
+
+## ApplyLayer files
+SOURCES += ApplyLayer/AroundVeh/AroundVeh.c
+SOURCES += ApplyLayer/AroundRsi/AroundRsi.c
+SOURCES += ApplyLayer/CAN/CAN.c
+SOURCES += ApplyLayer/DataSet/DataSet.c
+SOURCES += ApplyLayer/GPS/GPS.c
+SOURCES += ApplyLayer/Log/FileUnit.c
+SOURCES += ApplyLayer/HostStatus/HostStatus.c
+
+SOURCES += ApplyLayer/Net/TcpServer.c
+SOURCES += ApplyLayer/Net/TcpClient.c
+
+SOURCES += ApplyLayer/Common/CheckParam.c
+SOURCES += ApplyLayer/Common/Common.c
+SOURCES += ApplyLayer/Common/ReadIniParam.c
+SOURCES += ApplyLayer/Common/SendData2Pad.c
+SOURCES += ApplyLayer/Common/EncodeYT_cJSON.c
+
+SOURCES += ApplyLayer/Encode2Pad/Encode2Pad.c
+SOURCES += ApplyLayer/Encode2Pad/Encode2Pad_V1.c
+SOURCES += ApplyLayer/Encode2Pad/Encode2Pad_V2.c
+SOURCES += ApplyLayer/Encode2Pad/Enc2PadYutong.c
+
+SOURCES += ApplyLayer/V2X/V2X_Init.c
+SOURCES += ApplyLayer/V2X/V2X_RecvBSM.c
+SOURCES += ApplyLayer/V2X/V2X_RecvRSI.c
+SOURCES += ApplyLayer/V2X/V2X_RecvRSM.c
+SOURCES += ApplyLayer/V2X/V2X_RecvMAP.c
+SOURCES += ApplyLayer/V2X/V2X_RecvSPAT.c
+
+SOURCES += ApplyLayer/V2X_Transf/RsmDeal.c
+SOURCES += ApplyLayer/V2X_Transf/SpatDeal.c
+SOURCES += ApplyLayer/V2X_Transf/YuTong_Cloud.c
+
+SOURCES += ApplyLayer/DataBase/DataBase.c
+SOURCES += ApplyLayer/V2X_Transf/TcpClient.c
+SOURCES += ApplyLayer/V2X_Transf/RsiDeal.c
+
+SOURCES += Main.c
+
+################################################################################
+
+DEVMODE_DSRC = n
+ifeq ($(DEVMODE_DSRC),y)
+	TARGET = V2X_APP_DSRC
+endif
+ifeq ($(DEVMODE_DSRC),n)
+	TARGET = V2X_APP_LTEV
+endif
+
+ifeq ($(DEVMODE_DSRC),y)
+	SQLITE_DIR=/home/wanijv2x/v2x_bin/sqlite3_ltev_dt
+else
+	SQLITE_DIR=/home/wanijv2x/v2x_bin/sqlite3_ltev_dt
+endif
+SQLITE_LIBDIR=$(SQLITE_DIR)/lib
+
+DEBUG = y
+ifeq ($(DEBUG),y)
+	DEBUG_CFLAGS := -O -g #-DDEBUG
+else
+	DEBUG_CFLAGS := -O2
+endif
+
+CFLAGS := -Wall
+CFLAGS += $(DEBUG_CFLAGS)
+
+# EXTRA_CFLAGS
+EXTRA_CFLAGS += -I$(SECFRAME_DIR)
+EXTRA_CFLAGS += -I$(MSGFRAME_DIR)
+EXTRA_CFLAGS += -I$(SQLITE_DIR)/include
+
+#asn1c的环境
+prefix_asn1c=/home/wanijv2x/v2x_bin/asn1c
+EXTRA_CFLAGS += -I$(prefix_asn1c)/share/asn1c/
+
+# LDFLAGS (find the libs)
+#LDFLAGS += -L$(LIBS_DIR) -lbasefunct \
+	   -L$(LIBS_DIR) -lcanutil \
+	   -L$(LIBS_DIR) -lconfdb \
+	   -L$(LIBS_DIR) -lconfutil \
+	   -L$(LIBS_DIR) -ldatabaseutil \
+	   -L$(LIBS_DIR) -lgpsutil \
+	   -L$(LIBS_DIR) -lnetutil \
+	   -L$(LIBS_DIR) -lserialutil \
+	   -L$(LIBS_DIR) -lv2xutil
+
+LDFLAGS += -L$(LIBS_DIR) -lbasefunct \
+	   -L$(LIBS_DIR) -lMsgQueue \
+	   -L$(LIBS_DIR) -lcanmsg \
+	   -L$(LIBS_DIR) -lconfdb \
+	   -L$(LIBS_DIR) -lconfutil \
+	   -L$(LIBS_DIR) -lqxwz-pssdk \
+	   -L$(LIBS_DIR) -lgpsutil \
+	   -L$(LIBS_DIR) -lnetutil \
+	   -L$(LIBS_DIR) -lserialutil \
+	   -L$(LIBS_DIR) -lv2xutil \
+	   -L$(LIBS_DIR) -ldatabaseutil \
+	   -L$(LIBS_DIR) -lxdsc
+
+LDFLAGS += -L$(LIBS_DIR) -lnetlayer
+LDFLAGS += -L$(LIBS_DIR) -lsecuredframe
+LDFLAGS += -L$(LIBS_DIR) -lseclayer
+LDFLAGS += -L$(LIBS_DIR) -lecc
+LDFLAGS += -L$(LIBS_DIR) -liwall_v2x_api
+LDFLAGS += -L$(LIBS_DIR) -lmsgframe
+LDFLAGS += -L$(LIBS_DIR) -lfacilayer
+LDFLAGS += -L$(LIBS_DIR) -lAlgorithm
+LDFLAGS += -L$(LIBS_DIR) -lm
+# LIBS
+LDFLAGS += -L${SQLITE_LIBDIR} -lsqlite3
+LDFLAGS += -lpthread -lm
+
+# OBJS
+OBJS = ${SOURCES:.c=.o}
+
+################################################################################
+# Build Rules
+################################################################################
+CC = $(CROSS_COMPILE)gcc
+all: $(TARGET)
+
+$(TARGET): ${OBJS}
+	$(CC) $(CFLAGS) -o $(TARGET) ${OBJS} $(LDFLAGS) $(LIBS)
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+
+.c.o:
+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -o $@ -c $<
+
+clean:
+	rm -f $(TARGET)
+	#rm -f $(OBJS)
+	find ./ -name "*.o" |xargs rm -rf
+	find ./ -name "*.d" |xargs rm -rf
+

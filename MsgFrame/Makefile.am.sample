@@ -1,0 +1,418 @@
+ASN_MODULE_SOURCES=	\
+	BasicSafetyMessage.c	\
+	AccelerationSet4Way.c	\
+	Acceleration.c	\
+	VerticalAcceleration.c	\
+	YawRate.c	\
+	Speed.c	\
+	Heading.c	\
+	CoarseHeading.c	\
+	SteeringWheelAngle.c	\
+	MotionConfidenceSet.c	\
+	HeadingConfidence.c	\
+	SpeedConfidence.c	\
+	SteeringWheelAngleConfidence.c	\
+	Latitude.c	\
+	Longitude.c	\
+	Elevation.c	\
+	PositionConfidenceSet.c	\
+	PositionConfidence.c	\
+	ElevationConfidence.c	\
+	Position3D.c	\
+	SemiMajorAxisAccuracy.c	\
+	SemiMinorAxisAccuracy.c	\
+	SemiMajorAxisOrientation.c	\
+	PositionalAccuracy.c	\
+	PositionOffsetLLV.c	\
+	OffsetLL-B12.c	\
+	OffsetLL-B14.c	\
+	OffsetLL-B16.c	\
+	OffsetLL-B18.c	\
+	OffsetLL-B22.c	\
+	OffsetLL-B24.c	\
+	Position-LL-24B.c	\
+	Position-LL-28B.c	\
+	Position-LL-32B.c	\
+	Position-LL-36B.c	\
+	Position-LL-44B.c	\
+	Position-LL-48B.c	\
+	Position-LLmD-64b.c	\
+	PositionOffsetLL.c	\
+	VerticalOffset.c	\
+	VertOffset-B07.c	\
+	VertOffset-B08.c	\
+	VertOffset-B09.c	\
+	VertOffset-B10.c	\
+	VertOffset-B11.c	\
+	VertOffset-B12.c	\
+	DSecond.c	\
+	DYear.c	\
+	DMonth.c	\
+	DDay.c	\
+	DHour.c	\
+	DMinute.c	\
+	DTimeOffset.c	\
+	DDateTime.c	\
+	MinuteOfTheYear.c	\
+	TimeMark.c	\
+	TimeOffset.c	\
+	TimeConfidence.c	\
+	MapData.c	\
+	LaneList.c	\
+	Lane.c	\
+	LaneID.c	\
+	LaneWidth.c	\
+	ConnectsToList.c	\
+	Connection.c	\
+	ConnectingLane.c	\
+	AllowedManeuvers.c	\
+	LaneAttributes.c	\
+	LaneSharing.c	\
+	LaneTypeAttributes.c	\
+	LaneAttributes-Vehicle.c	\
+	LaneAttributes-Crosswalk.c	\
+	LaneAttributes-Bike.c	\
+	LaneAttributes-Sidewalk.c	\
+	LaneAttributes-Barrier.c	\
+	LaneAttributes-Striping.c	\
+	LaneAttributes-TrackedVehicle.c	\
+	LaneAttributes-Parking.c	\
+	LinkList.c	\
+	Link.c	\
+	MovementList.c	\
+	Movement.c	\
+	NodeList.c	\
+	Node.c	\
+	DescriptiveName.c	\
+	NodeReferenceID.c	\
+	RoadRegulatorID.c	\
+	NodeID.c	\
+	PointList.c	\
+	RoadPoint.c	\
+	SpeedLimitList.c	\
+	RegulatorySpeedLimit.c	\
+	SpeedLimitType.c	\
+	MessageFrame.c	\
+	MsgCount.c	\
+	RoadSideInformation.c	\
+	RTEList.c	\
+	RTEData.c	\
+	EventSource.c	\
+	EventType.c	\
+	RSITimeDetails.c	\
+	ReferencePathList.c	\
+	ReferencePath.c	\
+	RTSList.c	\
+	RTSData.c	\
+	Description.c	\
+	ReferenceLinkList.c	\
+	ReferenceLink.c	\
+	ReferenceLanes.c	\
+	SignType.c	\
+	PathPointList.c	\
+	Radius.c	\
+	RSIPriority.c	\
+	RoadsideSafetyMessage.c	\
+	ParticipantList.c	\
+	ParticipantData.c	\
+	ParticipantType.c	\
+	SourceType.c	\
+	SPAT.c	\
+	IntersectionStateList.c	\
+	IntersectionState.c	\
+	IntersectionStatusObject.c	\
+	PhaseList.c	\
+	Phase.c	\
+	PhaseStateList.c	\
+	PhaseState.c	\
+	LightState.c	\
+	TimeChangeDetails.c	\
+	UTCTiming.c	\
+	TimeCountingDown.c	\
+	PhaseID.c	\
+	BrakeSystemStatus.c	\
+	BrakePedalStatus.c	\
+	BrakeAppliedStatus.c	\
+	BrakeBoostApplied.c	\
+	TractionControlStatus.c	\
+	AntiLockBrakeStatus.c	\
+	StabilityControlStatus.c	\
+	AuxiliaryBrakeStatus.c	\
+	VehicleClassification.c	\
+	BasicVehicleClass.c	\
+	FuelType.c	\
+	VehicleEmergencyExtensions.c	\
+	ResponseType.c	\
+	SirenInUse.c	\
+	LightbarInUse.c	\
+	VehicleSafetyExtensions.c	\
+	PathHistory.c	\
+	FullPositionVector.c	\
+	GNSSstatus.c	\
+	PathHistoryPointList.c	\
+	PathHistoryPoint.c	\
+	PathPrediction.c	\
+	Confidence.c	\
+	RadiusOfCurvature.c	\
+	VehicleSize.c	\
+	VehicleWidth.c	\
+	VehicleLength.c	\
+	VehicleHeight.c	\
+	TransmissionState.c	\
+	VehicleEventFlags.c	\
+	ExteriorLights.c
+
+ASN_MODULE_HEADERS=	\
+	BasicSafetyMessage.h	\
+	AccelerationSet4Way.h	\
+	Acceleration.h	\
+	VerticalAcceleration.h	\
+	YawRate.h	\
+	Speed.h	\
+	Heading.h	\
+	CoarseHeading.h	\
+	SteeringWheelAngle.h	\
+	MotionConfidenceSet.h	\
+	HeadingConfidence.h	\
+	SpeedConfidence.h	\
+	SteeringWheelAngleConfidence.h	\
+	Latitude.h	\
+	Longitude.h	\
+	Elevation.h	\
+	PositionConfidenceSet.h	\
+	PositionConfidence.h	\
+	ElevationConfidence.h	\
+	Position3D.h	\
+	SemiMajorAxisAccuracy.h	\
+	SemiMinorAxisAccuracy.h	\
+	SemiMajorAxisOrientation.h	\
+	PositionalAccuracy.h	\
+	PositionOffsetLLV.h	\
+	OffsetLL-B12.h	\
+	OffsetLL-B14.h	\
+	OffsetLL-B16.h	\
+	OffsetLL-B18.h	\
+	OffsetLL-B22.h	\
+	OffsetLL-B24.h	\
+	Position-LL-24B.h	\
+	Position-LL-28B.h	\
+	Position-LL-32B.h	\
+	Position-LL-36B.h	\
+	Position-LL-44B.h	\
+	Position-LL-48B.h	\
+	Position-LLmD-64b.h	\
+	PositionOffsetLL.h	\
+	VerticalOffset.h	\
+	VertOffset-B07.h	\
+	VertOffset-B08.h	\
+	VertOffset-B09.h	\
+	VertOffset-B10.h	\
+	VertOffset-B11.h	\
+	VertOffset-B12.h	\
+	DSecond.h	\
+	DYear.h	\
+	DMonth.h	\
+	DDay.h	\
+	DHour.h	\
+	DMinute.h	\
+	DTimeOffset.h	\
+	DDateTime.h	\
+	MinuteOfTheYear.h	\
+	TimeMark.h	\
+	TimeOffset.h	\
+	TimeConfidence.h	\
+	MapData.h	\
+	LaneList.h	\
+	Lane.h	\
+	LaneID.h	\
+	LaneWidth.h	\
+	ConnectsToList.h	\
+	Connection.h	\
+	ConnectingLane.h	\
+	AllowedManeuvers.h	\
+	LaneAttributes.h	\
+	LaneSharing.h	\
+	LaneTypeAttributes.h	\
+	LaneAttributes-Vehicle.h	\
+	LaneAttributes-Crosswalk.h	\
+	LaneAttributes-Bike.h	\
+	LaneAttributes-Sidewalk.h	\
+	LaneAttributes-Barrier.h	\
+	LaneAttributes-Striping.h	\
+	LaneAttributes-TrackedVehicle.h	\
+	LaneAttributes-Parking.h	\
+	LinkList.h	\
+	Link.h	\
+	MovementList.h	\
+	Movement.h	\
+	NodeList.h	\
+	Node.h	\
+	DescriptiveName.h	\
+	NodeReferenceID.h	\
+	RoadRegulatorID.h	\
+	NodeID.h	\
+	PointList.h	\
+	RoadPoint.h	\
+	SpeedLimitList.h	\
+	RegulatorySpeedLimit.h	\
+	SpeedLimitType.h	\
+	MessageFrame.h	\
+	MsgCount.h	\
+	RoadSideInformation.h	\
+	RTEList.h	\
+	RTEData.h	\
+	EventSource.h	\
+	EventType.h	\
+	RSITimeDetails.h	\
+	ReferencePathList.h	\
+	ReferencePath.h	\
+	RTSList.h	\
+	RTSData.h	\
+	Description.h	\
+	ReferenceLinkList.h	\
+	ReferenceLink.h	\
+	ReferenceLanes.h	\
+	SignType.h	\
+	PathPointList.h	\
+	Radius.h	\
+	RSIPriority.h	\
+	RoadsideSafetyMessage.h	\
+	ParticipantList.h	\
+	ParticipantData.h	\
+	ParticipantType.h	\
+	SourceType.h	\
+	SPAT.h	\
+	IntersectionStateList.h	\
+	IntersectionState.h	\
+	IntersectionStatusObject.h	\
+	PhaseList.h	\
+	Phase.h	\
+	PhaseStateList.h	\
+	PhaseState.h	\
+	LightState.h	\
+	TimeChangeDetails.h	\
+	UTCTiming.h	\
+	TimeCountingDown.h	\
+	PhaseID.h	\
+	BrakeSystemStatus.h	\
+	BrakePedalStatus.h	\
+	BrakeAppliedStatus.h	\
+	BrakeBoostApplied.h	\
+	TractionControlStatus.h	\
+	AntiLockBrakeStatus.h	\
+	StabilityControlStatus.h	\
+	AuxiliaryBrakeStatus.h	\
+	VehicleClassification.h	\
+	BasicVehicleClass.h	\
+	FuelType.h	\
+	VehicleEmergencyExtensions.h	\
+	ResponseType.h	\
+	SirenInUse.h	\
+	LightbarInUse.h	\
+	VehicleSafetyExtensions.h	\
+	PathHistory.h	\
+	FullPositionVector.h	\
+	GNSSstatus.h	\
+	PathHistoryPointList.h	\
+	PathHistoryPoint.h	\
+	PathPrediction.h	\
+	Confidence.h	\
+	RadiusOfCurvature.h	\
+	VehicleSize.h	\
+	VehicleWidth.h	\
+	VehicleLength.h	\
+	VehicleHeight.h	\
+	TransmissionState.h	\
+	VehicleEventFlags.h	\
+	ExteriorLights.h
+
+ASN_MODULE_HEADERS+=ENUMERATED.h
+ASN_MODULE_SOURCES+=ENUMERATED.c
+ASN_MODULE_HEADERS+=INTEGER.h
+ASN_MODULE_HEADERS+=NativeEnumerated.h
+ASN_MODULE_HEADERS+=IA5String.h
+ASN_MODULE_SOURCES+=IA5String.c
+ASN_MODULE_SOURCES+=INTEGER.c
+ASN_MODULE_SOURCES+=NativeEnumerated.c
+ASN_MODULE_HEADERS+=NativeInteger.h
+ASN_MODULE_SOURCES+=NativeInteger.c
+ASN_MODULE_HEADERS+=asn_SEQUENCE_OF.h
+ASN_MODULE_SOURCES+=asn_SEQUENCE_OF.c
+ASN_MODULE_HEADERS+=asn_SET_OF.h
+ASN_MODULE_SOURCES+=asn_SET_OF.c
+ASN_MODULE_HEADERS+=constr_CHOICE.h
+ASN_MODULE_SOURCES+=constr_CHOICE.c
+ASN_MODULE_HEADERS+=constr_SEQUENCE.h
+ASN_MODULE_SOURCES+=constr_SEQUENCE.c
+ASN_MODULE_HEADERS+=constr_SEQUENCE_OF.h
+ASN_MODULE_SOURCES+=constr_SEQUENCE_OF.c
+ASN_MODULE_HEADERS+=constr_SET_OF.h
+ASN_MODULE_SOURCES+=constr_SET_OF.c
+ASN_MODULE_HEADERS+=asn_application.h
+ASN_MODULE_HEADERS+=asn_system.h
+ASN_MODULE_HEADERS+=asn_codecs.h
+ASN_MODULE_HEADERS+=asn_internal.h
+ASN_MODULE_HEADERS+=OCTET_STRING.h
+ASN_MODULE_SOURCES+=OCTET_STRING.c
+ASN_MODULE_HEADERS+=BIT_STRING.h
+ASN_MODULE_SOURCES+=BIT_STRING.c
+ASN_MODULE_SOURCES+=asn_codecs_prim.c
+ASN_MODULE_HEADERS+=asn_codecs_prim.h
+ASN_MODULE_HEADERS+=ber_tlv_length.h
+ASN_MODULE_SOURCES+=ber_tlv_length.c
+ASN_MODULE_HEADERS+=ber_tlv_tag.h
+ASN_MODULE_SOURCES+=ber_tlv_tag.c
+ASN_MODULE_HEADERS+=ber_decoder.h
+ASN_MODULE_SOURCES+=ber_decoder.c
+ASN_MODULE_HEADERS+=der_encoder.h
+ASN_MODULE_SOURCES+=der_encoder.c
+ASN_MODULE_HEADERS+=constr_TYPE.h
+ASN_MODULE_SOURCES+=constr_TYPE.c
+ASN_MODULE_HEADERS+=constraints.h
+ASN_MODULE_SOURCES+=constraints.c
+ASN_MODULE_HEADERS+=xer_support.h
+ASN_MODULE_SOURCES+=xer_support.c
+ASN_MODULE_HEADERS+=xer_decoder.h
+ASN_MODULE_SOURCES+=xer_decoder.c
+ASN_MODULE_HEADERS+=xer_encoder.h
+ASN_MODULE_SOURCES+=xer_encoder.c
+ASN_MODULE_HEADERS+=per_support.h
+ASN_MODULE_SOURCES+=per_support.c
+ASN_MODULE_HEADERS+=per_decoder.h
+ASN_MODULE_SOURCES+=per_decoder.c
+ASN_MODULE_HEADERS+=per_encoder.h
+ASN_MODULE_SOURCES+=per_encoder.c
+ASN_MODULE_HEADERS+=per_opentype.h
+ASN_MODULE_SOURCES+=per_opentype.c
+ASN_CONVERTER_SOURCES+=converter-sample.c
+
+
+lib_LTLIBRARIES=libsomething.la
+libsomething_la_SOURCES=$(ASN_MODULE_SOURCES) $(ASN_MODULE_HEADERS)
+
+# This file may be used as an input for make(3)
+# Remove the lines below to convert it into a pure .am file
+TARGET = progname
+CFLAGS += -I.
+OBJS=${ASN_MODULE_SOURCES:.c=.o} ${ASN_CONVERTER_SOURCES:.c=.o}
+
+all: $(TARGET)
+
+$(TARGET): ${OBJS}
+	$(CC) $(CFLAGS) -o $(TARGET) ${OBJS} $(LDFLAGS) $(LIBS)
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+
+.c.o:
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+clean:
+	rm -f $(TARGET)
+	rm -f $(OBJS)
+
+regen: regenerate-from-asn1-source
+
+regenerate-from-asn1-source:
+	asn1c -gen-PER BSM.asn DefAcceleration.asn DefMotion.asn DefPosition.asn DefPositionOffset.asn DefTime.asn Map.asn MapLane.asn MapLink.asn MapNode.asn MapPoint.asn MapSpeedLimit.asn MsgFrame.asn RSI.asn RSM.asn SignalPhaseAndTiming.asn SPATIntersectionState.asn VehBrake.asn VehClass.asn VehEmgExt.asn VehSafetyExt.asn VehSize.asn VehStatus.asn
+

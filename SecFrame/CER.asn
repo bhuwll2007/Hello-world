@@ -1,0 +1,80 @@
+
+CER DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+IMPORTS 
+    Uint8,
+    Signature,
+    HashedId8,
+    CertificateDigest,
+    PublicVerifyKey,
+    PublicEncryptionKey,
+    SubjectAssurance,
+    SequenceOfitsAidList,
+    SequenceOfitsAidSspList,
+    GeographicRegion,
+    Time32 FROM BASE;
+
+Certificate ::= SEQUENCE {
+    version			   Uint8,
+    issuer         IssuerId,
+    tbs            TbsCert,
+    signature      Signature
+}
+
+IssuerId ::= CHOICE {
+    self 					       NULL,
+    certificateDigest    CertificateDigest,
+    ...
+}
+
+TbsCert ::= SEQUENCE { 
+    subjectInfo			        SubjectInfo,
+    subjectAttributes		    SubjectAttribute,
+    validityRestrictions    ValidityRestriction
+}
+
+SubjectInfo ::= SEQUENCE {
+    subjectType 	SubjectType,
+    subjectName 	OCTET STRING (SIZE (0..32))
+}
+
+SubjectType ::= ENUMERATED {
+    enrollmentCredential,
+    authorizationTicket,
+    authorizationAuthority,
+    enrollmentAuthority,
+    rootCa,
+    crlSigner,
+    pseudonymTicket,
+    pseudonymAuthority
+}
+
+SubjectAttribute ::= SEQUENCE {
+    verificationKey     PublicVerifyKey,
+    encryptionKey 	    PublicEncryptionKey OPTIONAL,
+    assuranceLevel	SubjectAssurance OPTIONAL,
+    itsAidList          SequenceOfitsAidList OPTIONAL,
+    itsAidSspList       SequenceOfitsAidSspList OPTIONAL,
+    ...
+}
+
+ValidityRestriction ::= SEQUENCE {
+    validityPeriod      ValidityPeriod,
+    region              GeographicRegion OPTIONAL,
+    ...
+}
+
+ValidityPeriod ::= CHOICE {
+    timeEnd             Time32,
+    timeStartAndEnd     TimeStartAndEnd
+}
+
+TimeStartAndEnd ::= SEQUENCE {
+    startValidity       Time32,
+    endValidity         Time32
+}
+
+SequenceOfCertificate ::= SEQUENCE OF Certificate 
+
+END

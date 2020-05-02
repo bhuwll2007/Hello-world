@@ -1,0 +1,116 @@
+SecMsg DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+	
+EXPORTS ALL;
+IMPORTS 
+    Uint8,
+    Opaque,
+    Signature,
+    CertificateDigest,
+    HashAlgorithm,
+    ThreeDLocation,
+    HashedId3,
+    PublicEncryptionKey,
+    HashedId8,
+    EccCurve,
+    Time64,
+    ECCPoint FROM BASE
+    SequenceOfCertificate FROM CER;
+
+SecuredMessage ::= SEQUENCE {
+    version		Uint8,
+    payload		Payload
+}
+
+Payload ::= CHOICE {
+    unSecuredData    Opaque,
+    signedData     	 SignedData,
+    encData    		   EncryptedData
+}
+
+SignedData ::= SEQUENCE {
+    signer    SignerInfo,
+    tbs 		  TBSData, 
+    sign 		  Signature
+}
+
+SignerInfo ::= CHOICE {
+    self             		 NULL,
+    certificateList        	 SequenceOfCertificate,
+    certificateDigest    CertificateDigest,
+    ...
+}
+
+TBSData ::= SEQUENCE {
+    headerInfo    HeaderInfo,
+    data 			    OCTET STRING (SIZE(0..MAX)) OPTIONAL,
+    extHash 		  OCTET STRING (SIZE(32)) OPTIONAL
+}
+
+HeaderInfo ::= SEQUENCE {
+    itsAid    		INTEGER,
+    hashAlg 		  HashAlgorithm OPTIONAL,
+    genTime 		  Time64 OPTIONAL,
+    expiryTime    Time64 OPTIONAL,
+    location 		  ThreeDLocation OPTIONAL,
+    digest 			  HashedId3 OPTIONAL,
+    encKey 			  PublicEncryptionKey OPTIONAL
+}
+
+EncryptedData ::= SEQUENCE {
+    recipients   	SequenceOfRecipientInfo,
+    cipherText 		SymmetricCipherText
+}
+
+RecipientInfo ::= CHOICE{
+    pskRecipientInfo    	PreSharedKeyRecipientInfo,
+    symmRecipInfo 			  SymmRecipInfo,
+    certRecipInfo 			  PKRecipientInfo,
+    signedDataRecipInfo 	PKRecipientInfo
+}
+
+PreSharedKeyRecipientInfo ::= SEQUENCE {
+    hashAlg     	HashAlgorithm,
+    symKeyHash 		HashedId8
+}
+
+SymmRecipInfo ::= SEQUENCE {
+    hashAlg 		  HashAlgorithm,
+    recipientId 	HashedId8,
+    encKey 			  SymmetricCipherText
+}
+
+PKRecipientInfo ::= SEQUENCE {
+    hashAlg 		  HashAlgorithm,
+    recipientId 	HashedId8,
+    kek 			    EciesEncryptedKey
+}
+
+EciesEncryptedKey ::= SEQUENCE {
+    eccCcurve  	EccCurve,
+    v			      ECCPoint,
+    c 			    OCTET STRING (SIZE(16)),
+    t 			    OCTET STRING (SIZE(32))
+}
+
+SymmetricCipherText ::= CHOICE {
+    sm4Ecb  	CipherText,
+    sm4Cbc 		SM4CipherText,
+    sm4Cfb 		SM4CipherText,
+    sm4Ofb 		SM4CipherText,
+    aesCcm 		AesCcmCipherText
+}
+
+CipherText ::= Opaque
+SM4CipherText ::= SEQUENCE {
+    iv   		  OCTET STRING (SIZE(16)),
+    cipher 		CipherText
+}
+
+AesCcmCipherText ::= SEQUENCE {
+    nonce 		OCTET STRING (SIZE(12)),
+    cipher 		CipherText
+}
+
+SequenceOfRecipientInfo ::= SEQUENCE OF RecipientInfo
+
+END

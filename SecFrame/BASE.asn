@@ -1,0 +1,155 @@
+BASE DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+    
+EXPORTS ALL;
+
+---------------------------------整数定义----------------------------------------------
+Uint3  ::= INTEGER (0..7)                    -- (hex)                      07
+Uint8  ::= INTEGER (0..255)                  -- (hex)                      ff
+Uint16 ::= INTEGER (0..65535)                -- (hex)                   ff ff
+Uint32 ::= INTEGER (0..4294967295)		       -- (hex)             ff ff ff ff
+Uint64 ::= INTEGER (0..18446744073709551615) -- (hex) ff ff ff ff ff ff ff ff
+---------------------------------------------------------------------------------------
+
+---------------------------------字节串定义--------------------------------------------
+Opaque ::= OCTET STRING
+HashedId8 ::= OCTET STRING (SIZE(8))
+HashedId3 ::= OCTET STRING (SIZE(3))
+---------------------------------------------------------------------------------------
+
+---------------------------------时间定义----------------------------------------------
+Time32 ::= Uint32
+Time64 ::= Uint64
+---------------------------------------------------------------------------------------
+
+---------------------------------地理位置定义------------------------------------------
+GeographicRegion ::= CHOICE {
+	circularRegion      CircularRegion,
+	rectangularRegion   SequenceOfRectangularRegion,
+	polygonalRegion     PolygonalRegion,
+	...
+}
+
+CircularRegion ::= SEQUENCE{
+	center          TwoDLocation,
+	radius          Uint16
+}
+
+RectangularRegion ::= SEQUENCE{
+	northWest       TwoDLocation,
+	southEast       TwoDLocation
+}
+
+SequenceOfRectangularRegion ::= SEQUENCE OF RectangularRegion
+
+PolygonalRegion ::= SEQUENCE SIZE(3..MAX) OF TwoDLocation
+
+TwoDLocation ::= SEQUENCE {
+	latitude      Latitude,
+	longitude     Longitude
+}
+
+ThreeDLocation ::= SEQUENCE {
+	latitude        Latitude,
+	longitude       Longitude,
+	elevation       ElevationSec
+}
+
+Latitude ::= NinetyDegreeInt
+
+Longitude ::= OneEightyDegreeInt
+
+ElevationSec ::= Uint16
+
+NinetyDegreeInt ::= INTEGER {
+	min 		(-900000000),
+	max 		(900000000),
+	unknown 	(900000001)
+} (-900000000..900000001)
+
+KnownLatitude ::= NinetyDegreeInt (min..max) 
+
+UnknownLatitude ::= NinetyDegreeInt (unknown)
+
+OneEightyDegreeInt ::= INTEGER {
+	min      	(-1799999999),
+	max      	(1800000000),
+	unknown  	(1800000001)
+} (-1799999999..1800000001)
+
+KnownLongitude ::= OneEightyDegreeInt (min..max)
+UnknownLongitude ::= OneEightyDegreeInt (unknown)
+---------------------------------------------------------------------------------------
+
+---------------------------------密码定义----------------------------------------------
+EccCurve ::= ENUMERATED {
+	sgdsm2,
+	nistP256,
+	brainpoolP256r1,
+	...
+}
+
+ECCPoint ::= CHOICE {
+	x-only           OCTET STRING (SIZE (32)),
+	fill             NULL,  -- consistency with 1363 / X9.62
+	compressed-y-0   OCTET STRING (SIZE (32)),
+	compressed-y-1   OCTET STRING (SIZE (32)),
+	uncompressedP256 SEQUENCE  {
+		x OCTET STRING (SIZE (32)),
+		y OCTET STRING (SIZE (32))
+	}
+}
+
+Signature ::= SEQUENCE {
+	curve EccCurve,
+	r     ECCPoint,
+	s     OCTET STRING (SIZE (32))
+}
+
+HashAlgorithm ::= ENUMERATED { 
+	sgdsm3,
+	sha256,
+	sha3-256,
+	...
+}
+
+SymmetricAlgorithm ::= ENUMERATED { 
+	sgdsm4ecb,
+	sgdsm4cbc,
+	sgdsm4cfb,
+	sgdsm4ofb,
+	aes128ccm,
+	...
+}
+
+PublicEncryptionKey ::= SEQUENCE { 
+	supportedSymmAlg      SymmetricAlgorithm,
+	eccCurve              EccCurve,
+	publicKey             ECCPoint
+}
+
+CertificateDigest ::= SEQUENCE {
+	algorithm    	HashAlgorithm,
+	digest 		    HashedId8
+}
+
+PublicVerifyKey ::= SEQUENCE {
+	curve		EccCurve,
+	key		ECCPoint,
+	...
+}
+
+---------------------------------------------------------------------------------------
+
+---------------------------------Aid定义-----------------------------------------------
+ItsAid ::= Uint64
+ItsAidSsp ::= SEQUENCE {
+	itsAid	 ItsAid,
+	serviceSpecificPermissions  OCTET STRING (SIZE (1..32))
+}
+SubjectAssurance ::= OCTET STRING (SIZE (1))
+SequenceOfitsAidList ::= SEQUENCE OF ItsAid
+SequenceOfitsAidSspList ::= SEQUENCE OF ItsAidSsp
+---------------------------------------------------------------------------------------
+
+END
+

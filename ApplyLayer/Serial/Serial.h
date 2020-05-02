@@ -1,0 +1,3 @@
+#ifndef __APPLYLAYER_SERIAL_H
+#define __APPLYLAYER_SERIAL_H
+#endif  //_APPLYLAYER_SERIAL_H

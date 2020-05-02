@@ -1,0 +1,220 @@
+######################################################################################
+#
+# Master Makefile
+#
+########################################################################################
+
+# Build groups
+BG_BASEINTERFACE	:= 
+BG_BASEINTERFACE	+= lib-basefunct
+BG_BASEINTERFACE	+= lib-msgQueue
+BG_BASEINTERFACE	+= lib-canutil
+BG_BASEINTERFACE	+= lib-confdb
+BG_BASEINTERFACE	+= lib-confutil
+BG_BASEINTERFACE	+= lib-databaseutil
+BG_BASEINTERFACE	+= lib-gpsutil
+BG_BASEINTERFACE	+= lib-netutil
+BG_BASEINTERFACE	+= lib-serialutil
+BG_BASEINTERFACE	+= lib-v2xutil
+
+BG_NETLAYER       	:= lib-netlayer
+BG_SECFRAME       	:= lib-SecFrame
+BG_SECLAYER       	:= lib-SecLayer
+BG_MSGFRAME       	:= lib-MsgFrame
+BG_FACILAYER       	:= lib-facilayer
+BG_ALGORITHM      	:= lib-algorithm
+
+BG_ALL          	:=
+BG_ALL 				+=$(BG_BASEINTERFACE)
+BG_ALL 				+=$(BG_NETLAYER)
+BG_ALL 				+=$(BG_SECFRAME)
+BG_ALL 				+=$(BG_SECLAYER)
+BG_ALL 				+=$(BG_MSGFRAME)
+BG_ALL 				+=$(BG_FACILAYER)
+BG_ALL 				+=$(BG_ALGORITHM)
+
+# Build list
+BL		?= $(BG_ALL)
+
+###########################################################################
+
+DEVMODE_DSRC = n
+ifeq ($(DEVMODE_DSRC),y)
+  ARCH:=arm
+  ARCHITECTURE:=arm-linux-gnueabihf
+  CROSS_COMPILE:=$(ARCHITECTURE)-
+endif
+ifeq ($(DEVMODE_DSRC),n)
+  ARCH:=arm
+  ARCHITECTURE:=/home/wanijv2x/v2x_bin/gcc-4.9-2016.02-x86_64_arm-linux-gnueabi/bin/arm-linux-gnueabi
+  CROSS_COMPILE:=$(ARCHITECTURE)-
+endif
+
+export ARCH
+export CROSS_COMPILE
+
+#sqlite数据库
+ifeq ($(DEVMODE_DSRC),y)
+	prefix=/home/wanijv2x/v2x_bin/sqlite3_ltev_dt
+else
+	prefix=/home/wanijv2x/v2x_bin/sqlite3_ltev_dt
+endif
+
+EXTRA_CFLAGS += -I$(prefix)/include
+LDFLAGS +=-L${prefix}/lib -lsqlite3 
+
+##asn1c的环境
+#prefix_asn1c=/home/wanji/wanji_bin/asn1c
+#EXTRA_CFLAGS += -I$(prefix_asn1c)/share/asn1c/
+
+DEBUG = n
+ifeq ($(DEBUG),y)
+	DEBUG_CFLAGS := -O -g -DDEBUG
+else
+	DEBUG_CFLAGS := -O2
+endif
+
+CFLAGS := -Wall #-Werror -MD
+CFLAGS += $(DEBUG_CFLAGS)
+
+export EXTRA_CFLAGS
+export LDFLAGS
+export CFLAGS
+all:
+	@for target in `echo $(BL) | tr , ' '` ; do  \
+		if ! $(MAKE) $${target} ; then  \
+			exit 1 ;  \
+		fi ;  \
+	done
+	$(CPYDIR)
+
+clean:
+	@rm -f .toolchain
+	@sudo rm -rf $(INSTALLDIR)
+	@for target in `echo $(BL) | tr , ' '` ; do  \
+		$(MAKE) $${target} CMD=clean ; \
+	done
+	$(DELDIR)
+
+################################################################################
+#
+# Software Components Build Rule
+#
+################################################################################
+
+##
+## BG_BASEINTERFACE components:
+##
+
+# libs in BaseInterface/
+lib-basefunct:
+	@$(MAKE) -C BaseInterface/BaseFunct $(CMD)
+
+lib-msgQueue:
+	@$(MAKE) -C BaseInterface/MsgQueue $(CMD)
+	
+lib-canutil:
+	@$(MAKE) -C BaseInterface/CANUtil $(CMD)
+
+lib-confdb:
+	@$(MAKE) -C BaseInterface/ConfDB $(CMD)
+
+lib-confutil:
+	@$(MAKE) -C BaseInterface/ConfUtil $(CMD)
+
+lib-databaseutil:
+	@$(MAKE) -C BaseInterface/DataBaseUtil $(CMD)
+
+lib-gpsutil:
+	@$(MAKE) -C BaseInterface/GPSUtil $(CMD)
+
+lib-netutil:
+	@$(MAKE) -C BaseInterface/NetUtil $(CMD)
+
+lib-serialutil:
+	@$(MAKE) -C BaseInterface/SerialUtil $(CMD)
+
+lib-v2xutil:
+	@$(MAKE) -C BaseInterface/V2XUtil $(CMD)
+
+##
+## BG_MSGFRAME components:
+##
+
+# libs in MsgFrame/
+lib-MsgFrame:
+	@$(MAKE) -C MsgFrame $(CMD)
+
+##
+## BG_FACILAYER components:
+##
+
+# libs in FaciLayer/
+lib-facilayer:
+	@$(MAKE) -C FaciLayer $(CMD)
+
+# libs in NetLayer/
+lib-netlayer:
+	@$(MAKE) -C NetLayer $(CMD)
+	
+# libs in SecLayer/
+lib-SecFrame:
+	@$(MAKE) -C SecFrame $(CMD)
+	
+# libs in SecLayer/
+lib-SecLayer:
+	@$(MAKE) -C SecLayer $(CMD)
+	
+# libs in TciMsgLayer/
+lib-TciMsgLayer:
+	@$(MAKE) -C TciMsgLayer $(CMD)
+	
+##
+## BG_ALGORITHM components:
+##
+
+# libs in Algorithm/
+lib-algorithm:
+	@$(MAKE) -C Algorithm $(CMD)
+      
+##
+## BG_PROTOCOLTEST components:
+##
+          
+lib-ProtocolTest:
+	@$(MAKE) -C TCILSUT $(CMD)
+.CPYDIR:
+CPYDIR := 
+CPYDIR += sudo mkdir ./libs;
+CPYDIR += sudo cp ./BaseInterface/BaseFunct/libbasefunct.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/MsgQueue/libMsgQueue.so ./libs; 
+CPYDIR += sudo cp ./BaseInterface/CANUtil/libcanmsg.so ./libs; 
+CPYDIR += sudo cp ./BaseInterface/ConfDB/libconfdb.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/ConfUtil/libconfutil.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/DataBaseUtil/libdatabaseutil.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/GPSUtil/libgpsutil.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/GPSUtil/libqxwz-pssdk.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/NetUtil/libnetutil.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/SerialUtil/libserialutil.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/V2XUtil/libv2xutil.so ./libs;
+CPYDIR += sudo cp ./NetLayer/libnetlayer.so ./libs;
+CPYDIR += sudo cp ./SecFrame/libsecuredframe.so ./libs;
+CPYDIR += sudo cp ./SecLayer/libseclayer.so ./libs;
+CPYDIR += sudo cp ./SecLayer/libiwall_v2x_api.so ./libs;
+CPYDIR += sudo cp ./SecLayer/libecc.so ./libs;
+CPYDIR += sudo cp ./MsgFrame/libmsgframe.so ./libs;
+CPYDIR += sudo cp ./FaciLayer/libfacilayer.so ./libs;
+CPYDIR += sudo cp ./Algorithm/libAlgorithm.so ./libs;
+CPYDIR += sudo cp ./ApplyLayer/Common/libxdsc/libxdsc.so ./libs;
+CPYDIR += sudo chmod 777 -R ./libs;
+
+ifeq ($(DEVMODE_DSRC),y)
+CPYDIR += sudo cp ./BaseInterface/GPSUtil/librtcm.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/V2XUtil/DSRC_SO/libconfig.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/V2XUtil/DSRC_SO/libnl.so ./libs;
+CPYDIR += sudo cp ./BaseInterface/V2XUtil/DSRC_SO/lib1609.a ./libs; 
+endif
+
+.DELDIR:
+DELDIR :=
+DELDIR += sudo rm -rf ./libs;
